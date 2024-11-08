@@ -6,8 +6,8 @@ Crear y activar un entorno virtual en Python:
 
     
 
-    python3 -m venv socialenv
-    source socialenv/bin/activate  # En Windows usa: socialenv\Scripts\activate
+    python -m venv med-rec-env
+    En Windows usa: med-rec-env\Scripts\activate
     python.exe -m pip install --upgrade pip
     pip install -r requirements.txt
     pip freeze > requirements.txt
