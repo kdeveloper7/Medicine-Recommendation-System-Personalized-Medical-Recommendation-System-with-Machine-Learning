@@ -58,29 +58,20 @@ def get_predicted_value(patient_symptoms):
 
 # creating routes========================================
 
-
 @app.route("/")
 def index():
-    return render_template("index.html")
+    # Pasamos el diccionario de síntomas al template
+    return render_template("index.html", symptoms_dict=symptoms_dict)
 
-# Define a route for the home page
 @app.route('/predict', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        symptoms = request.form.get('symptoms')
-        # mysysms = request.form.get('mysysms')
-        # print(mysysms)
-        print(symptoms)
-        if symptoms =="Symptoms":
-            message = "Please either write symptoms or you have written misspelled symptoms"
-            return render_template('index.html', message=message)
+        selected_symptoms = request.form.getlist('symptoms')  # Obtener la lista de síntomas seleccionados
+        if not selected_symptoms:
+            message = "Please select at least one symptom."
+            return render_template('index.html', message=message, symptoms_dict=symptoms_dict)
         else:
-
-            # Split the user's input into a list of symptoms (assuming they are comma-separated)
-            user_symptoms = [s.strip() for s in symptoms.split(',')]
-            # Remove any extra characters, if any
-            user_symptoms = [symptom.strip("[]' ") for symptom in user_symptoms]
-            predicted_disease = get_predicted_value(user_symptoms)
+            predicted_disease = get_predicted_value(selected_symptoms)
             dis_des, precautions, medications, rec_diet, workout = helper(predicted_disease)
 
             my_precautions = []
@@ -89,9 +80,11 @@ def home():
 
             return render_template('index.html', predicted_disease=predicted_disease, dis_des=dis_des,
                                    my_precautions=my_precautions, medications=medications, my_diet=rec_diet,
-                                   workout=workout)
+                                   workout=workout, symptoms_dict=symptoms_dict)
 
-    return render_template('index.html')
+    return render_template('index.html', symptoms_dict=symptoms_dict)
+
+
 
 
 

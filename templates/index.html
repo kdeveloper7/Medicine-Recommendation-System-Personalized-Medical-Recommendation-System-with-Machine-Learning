@@ -70,35 +70,167 @@
 
 
 
-
-<!-- main form of page -->
-<h1 class="mt-4 my-4 text-center text-green">Health Care Center</h1>
-<div class="container my-4 mt-4" style="background: black; color: white; border-radius: 15px; padding: 40px;">
+<!-- Formulario principal -->
+<div class="container my-4">
+    <h1 class="text-center">Health Care Center</h1>
     <form action="/predict" method="post">
         <div class="form-group">
-            <label for="symptoms">Select Symptoms:</label>
-            <input type="text" class="form-control", id="symptoms" name="symptoms" placeholder="type systems such as itching, sleeping, aching etc">
+            <label for="symptoms">Selecciona los síntomas:</label>
+            
+            <!-- Grupo 1: Síntomas relacionados con la piel -->
+            <details>
+                <summary>Piel y Apariencia</summary>
+                <div style="margin-left: 20px;">
+                    <div>
+                        <input type="checkbox" name="symptoms" value="itching" id="itching">
+                        <label for="itching">Itching</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="skin_rash" id="skin_rash">
+                        <label for="skin_rash">Skin Rash</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="nodal_skin_eruptions" id="nodal_skin_eruptions">
+                        <label for="nodal_skin_eruptions">Nodal Skin Eruptions</label>
+                    </div>
+                    <!-- Agregar más síntomas de piel aquí -->
+                </div>
+            </details>
+            
+            <!-- Grupo 2: Síntomas relacionados con el dolor -->
+            <details>
+                <summary>Dolor y malestar general</summary>
+                <div style="margin-left: 20px;">
+                    <div>
+                        <input type="checkbox" name="symptoms" value="joint_pain" id="joint_pain">
+                        <label for="joint_pain">Joint Pain</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="stomach_pain" id="stomach_pain">
+                        <label for="stomach_pain">Stomach Pain</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="headache" id="headache">
+                        <label for="headache">Headache</label>
+                    </div>
+                    <!-- Agregar más síntomas de dolor aquí -->
+                </div>
+            </details>
+
+            <!-- Grupo 3: Síntomas relacionados con la fiebre y el sistema respiratorio -->
+            <details>
+                <summary>Fiebre y Sistema Respiratorio</summary>
+                <div style="margin-left: 20px;">
+                    <div>
+                        <input type="checkbox" name="symptoms" value="high_fever" id="high_fever">
+                        <label for="high_fever">High Fever</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="cough" id="cough">
+                        <label for="cough">Cough</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="breathlessness" id="breathlessness">
+                        <label for="breathlessness">Breathlessness</label>
+                    </div>
+                    <!-- Agregar más síntomas respiratorios aquí -->
+                </div>
+            </details>
+
+            <!-- Grupo 4: Síntomas relacionados con la digestión -->
+            <details>
+                <summary>Problemas Digestivos</summary>
+                <div style="margin-left: 20px;">
+                    <div>
+                        <input type="checkbox" name="symptoms" value="vomiting" id="vomiting">
+                        <label for="vomiting">Vomiting</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="nausea" id="nausea">
+                        <label for="nausea">Nausea</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="acidity" id="acidity">
+                        <label for="acidity">Acidity</label>
+                    </div>
+                    <!-- Agregar más síntomas digestivos aquí -->
+                </div>
+            </details>
+
+            <!-- Grupo 5: Otros síntomas generales -->
+            <details>
+                <summary>Otros Síntomas Generales</summary>
+                <div style="margin-left: 20px;">
+                    <div>
+                        <input type="checkbox" name="symptoms" value="fatigue" id="fatigue">
+                        <label for="fatigue">Fatigue</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="weight_loss" id="weight_loss">
+                        <label for="weight_loss">Weight Loss</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symptoms" value="anxiety" id="anxiety">
+                        <label for="anxiety">Anxiety</label>
+                    </div>
+                    <!-- Agregar más síntomas generales aquí -->
+                </div>
+            </details>
 
         </div>
-        <br>
-        <button type="button" id="startSpeechRecognition" class="btn btn-primary" style="margin-left:3px;border:1px solid white; border-radius:20px;">
-            Start Speech Recognition
-        </button>
-        <br>
-
-        <!-- Display the transcribed text here -->
-        <div name="mysysms" id="transcription"></div>
-
-        {% if message %}
-        <p>{{ message }}</p>
-        {% endif %}
-        <br>
-
-        <button type="submit" class="btn btn-danger btn-lg" style="width: 100%; padding: 14px; margin-bottom: 5px;">Predict</button>
+        <button type="submit" class="btn btn-danger btn-lg mt-3" style="width: 100%;">Predecir</button>
     </form>
+
+    {% if message %}
+        <p class="alert alert-warning mt-3">{{ message }}</p>
+    {% endif %}
+
+    {% if predicted_disease %}
+        <h2 class="mt-4">Predicción: {{ predicted_disease }}</h2>
+        
+        <!-- Resultados desplegables -->
+        <details>
+            <summary><strong>Descripción</strong></summary>
+            <p>{{ dis_des }}</p>
+        </details>
+
+        <details>
+            <summary><strong>Precauciones</strong></summary>
+            <ul>
+                {% for precaution in my_precautions %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+        </details>
+
+        <details>
+            <summary><strong>Medicamentos</strong></summary>
+            <ul>
+                {% for med in medications %}
+                    <li>{{ med }}</li>
+                {% endfor %}
+            </ul>
+        </details>
+
+        <details>
+            <summary><strong>Recomendaciones dietéticas</strong></summary>
+            <ul>
+                {% for diet in my_diet %}
+                    <li>{{ diet }}</li>
+                {% endfor %}
+            </ul>
+        </details>
+
+        <details>
+            <summary><strong>Ejercicios recomendados</strong></summary>
+            <ul>
+                {% for exercise in workout %}
+                    <li>{{ exercise }}</li>
+                {% endfor %}
+            </ul>
+        </details>
+    {% endif %}
 </div>
-
-
 
 
 
