@@ -20,7 +20,7 @@ Crear y activar un entorno virtual en Python:
 
 
      Opción2.:
-     
+
     **Se puede levantar el servidor Flask como una API rest con el fichero main_api_rest.py**
 
         1. Prueba el Endpoint con Postman
@@ -59,7 +59,9 @@ Continuous Improvement: Our system is designed for continuous improvement. As we
 Take charge of your health with our Personalized Medical Recommendation System. Your well-being is our priority, and we're dedicated to providing you with the tools and insights you need for a healthier, happier life.
 
 
+credits to : https://www.youtube.com/watch?v=1xHU20MgvqI
 
+The code has been refactorized by kdeveloper7 for implementing API rest and configure de datasets and files.
 
 
 
